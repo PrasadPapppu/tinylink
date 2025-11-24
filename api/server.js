@@ -32,8 +32,8 @@ app.get("/code/:code", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/stats.html"));
 });
 
-// Redirect (IMPORTANT — must be before static)
-app.get("/:code", async (req, res) => {
+// Redirect ONLY for valid short codes (6–8 alphanumeric)
+app.get("/:code([A-Za-z0-9]{6,8})", async (req, res) => {
   const code = req.params.code;
 
   try {
@@ -56,6 +56,7 @@ app.get("/:code", async (req, res) => {
     return res.status(500).send("Server error");
   }
 });
+
 
 // Serve static files (MOVE THIS TO THE END)
 app.use(express.static(path.join(__dirname, "../public")));
