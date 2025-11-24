@@ -22,6 +22,9 @@ app.get("/healthz", (req, res) => {
   res.status(200).json({ ok: true, version: "1.0" });
 });
 
+// ⚠️ VERY IMPORTANT: STATIC FILES FIRST
+app.use(express.static(path.join(__dirname, "../public")));
+
 // Dashboard
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("public/index.html"));
@@ -32,11 +35,10 @@ app.get("/code/:code", (req, res) => {
   res.sendFile(path.resolve("public/stats.html"));
 });
 
-// Redirect — manual regex validation (Vercel-safe)
+// Redirect — manual validation
 app.get("/:code", async (req, res) => {
   const code = req.params.code;
 
-  // Manual validation (Vercel does NOT support regex in route)
   if (!/^[A-Za-z0-9]{6,8}$/.test(code)) {
     return res.status(404).send("Not found");
   }
@@ -48,7 +50,6 @@ app.get("/:code", async (req, res) => {
       return res.status(404).send("Not found");
     }
 
-    // Update click count + timestamp
     await pool.query(`
       UPDATE links
       SET total_clicks = total_clicks + 1,
@@ -62,8 +63,5 @@ app.get("/:code", async (req, res) => {
     return res.status(500).send("Server error");
   }
 });
-
-// Static files (CSS, JS, images)
-app.use(express.static(path.join(__dirname, "../public")));
 
 export default app;
