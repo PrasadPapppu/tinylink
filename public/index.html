@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TinyLink Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <h1>TinyLink Dashboard</h1>
+
+  <!-- ADD LINK FORM -->
+  <section class="card">
+    <h2>Create New Short Link</h2>
+
+    <form id="createForm">
+      <label>Target URL</label>
+      <input type="text" id="urlInput" required placeholder="https://example.com">
+
+      <label>Custom Code (6–8 letters/numbers)</label>
+      <input type="text" id="codeInput" required placeholder="mycode123">
+
+      <button type="submit">Create</button>
+      <p id="formMessage"></p>
+    </form>
+  </section>
+
+  <!-- LINKS TABLE -->
+  <section class="card">
+    <h2>All Links</h2>
+    <div id="loading">Loading...</div>
+    <table id="linksTable" class="hidden">
+      <thead>
+        <tr>
+          <th>Short Code</th>
+          <th>Target URL</th>
+          <th>Total Clicks</th>
+          <th>Last Clicked</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="linksBody"></tbody>
+    </table>
+    <p id="emptyState" class="hidden">No links yet. Create one above!</p>
+  </section>
+
+  <script src="/script.js"></script>
+</body>
+</html>

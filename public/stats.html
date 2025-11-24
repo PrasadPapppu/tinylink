@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TinyLink Stats</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <h1>Link Stats</h1>
+
+  <div class="card">
+    <h2 id="codeTitle"></h2>
+    <p><strong>Target URL:</strong> <span id="url"></span></p>
+    <p><strong>Total Clicks:</strong> <span id="clicks"></span></p>
+    <p><strong>Last Clicked:</strong> <span id="last"></span></p>
+  </div>
+
+  <script>
+    async function loadStats() {
+      const parts = window.location.pathname.split("/");
+      const code = parts[2];
+
+      const res = await fetch("/api/links/" + code);
+
+      if (!res.ok) {
+        document.body.innerHTML = "<h2>Not found</h2>";
+        return;
+      }
+
+      const data = await res.json();
+
+      document.getElementById("codeTitle").textContent = "Code: " + data.code;
+      document.getElementById("url").textContent = data.target_url;
+      document.getElementById("clicks").textContent = data.total_clicks;
+      document.getElementById("last").textContent = data.last_clicked || "-";
+    }
+
+    loadStats();
+  </script>
+
+</body>
+</html>
