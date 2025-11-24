@@ -1,9 +1,15 @@
 # TinyLink – URL Shortener
+# TinyLink — URL Shortener
+
+🎥 **Demo Video:**  
+**https://www.loom.com/share/c2c37919152f4d94999d9ecaa51f6a31**
+
+A simple tiny URL shortener built using Node.js, Express.js, PostgreSQL (Neon), and deployed on Vercel.
 
 TinyLink is a lightweight Bit.ly-style URL shortener service with click statistics, link management, and clean UI.  
 This project was built as a take-home assignment.
 
-Live Demo: **https://tinylink-rose.vercel.app/**  
+Live Demo: **https://tinylink-new-omega.vercel.app/**  
 GitHub Repo: **https://github.com/PrasadPapppu/tinylink**
 
 ---
