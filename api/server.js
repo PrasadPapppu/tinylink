@@ -13,7 +13,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../public")));
 
 // API routes
 app.use("/api/links", linkRoutes);
@@ -33,7 +32,7 @@ app.get("/code/:code", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/stats.html"));
 });
 
-// Redirect
+// Redirect (IMPORTANT — must be before static)
 app.get("/:code", async (req, res) => {
   const code = req.params.code;
 
@@ -58,5 +57,7 @@ app.get("/:code", async (req, res) => {
   }
 });
 
-// IMPORTANT: Export app as Vercel serverless function
+// Serve static files (MOVE THIS TO THE END)
+app.use(express.static(path.join(__dirname, "../public")));
+
 export default app;
