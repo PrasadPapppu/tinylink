@@ -26,7 +26,11 @@ html,body {
   justify-content:space-between;
   height:64px;
 }
-.brand { font-weight:700; font-size:20px; color:#0b5fff; }
+.brand {
+  font-weight:700;
+  font-size:20px;
+  color:#0b5fff;
+}
 .nav a {
   color:#334155;
   margin-left:18px;
@@ -46,7 +50,7 @@ html,body {
 /* MOBILE FIX — STACK EVERYTHING */
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: 1fr; /* stack vertically */
+    grid-template-columns: 1fr;
   }
 }
 
@@ -61,6 +65,7 @@ html,body {
 .muted { color:#667085; font-size:13px; }
 
 /* Form */
+.form { margin-top:10px; }
 .field {
   margin-bottom:12px;
   display:flex;
@@ -95,9 +100,12 @@ html,body {
   background:#f8fafc;
   cursor:pointer;
   font-size:14px;
+  transition:0.15s ease;
+}
+.btn:hover {
+  opacity:0.85;
 }
 
-/* Bigger tap targets on mobile */
 @media (max-width: 600px) {
   .btn {
     padding:14px 18px;
@@ -105,19 +113,26 @@ html,body {
   }
 }
 
-.btn.primary { background:#0b5fff; color:#fff; border-color:#0b5fff; }
-.btn.outline { background:transparent; border-color:#e6e9ef; color:#0b5fff; }
+.btn.primary {
+  background:#0b5fff;
+  color:#fff;
+  border-color:#0b5fff;
+}
+.btn.outline {
+  background:transparent;
+  border-color:#e6e9ef;
+  color:#0b5fff;
+}
 
-/* List header */
+/* List header + search */
 .list-header {
   display:flex;
   justify-content:space-between;
   align-items:center;
   flex-wrap:wrap;
   gap:12px;
+  margin-bottom:10px;
 }
-
-/* Search input */
 .search-wrap input {
   padding:10px 12px;
   border-radius:8px;
@@ -137,22 +152,17 @@ html,body {
 /* Table container */
 .table-wrap {
   overflow-x:auto;
+  width:100%;
+  -webkit-overflow-scrolling: touch;
   border-radius:10px;
   border:1px solid #f1f5f9;
-}
-
-/* Make table scrollable on small screens */
-@media (max-width: 600px) {
-  .table-wrap {
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 /* Table */
 .links-table {
   width:100%;
   border-collapse:collapse;
-  min-width:720px; /* ensure scrollable table */
+  min-width:720px;
 }
 .links-table thead th {
   text-align:left;
@@ -164,24 +174,50 @@ html,body {
 .links-table tbody td {
   padding:12px 14px;
   border-top:1px solid #f1f5f9;
-  vertical-align:middle;
   font-size:14px;
+  vertical-align:middle;
   color:#0f172a;
 }
+
+/* Row hover */
+.links-table tbody tr:hover {
+  background:#fbfdff;
+}
+
+/* URL truncation */
 .truncate {
-  max-width:280px;
+  display:inline-block;
+  max-width:220px;
   overflow:hidden;
-  text-overflow:ellipsis;
   white-space:nowrap;
+  text-overflow:ellipsis;
+  vertical-align:middle;
+}
+
+@media (min-width: 900px) {
+  .truncate {
+    max-width:350px;
+  }
 }
 @media (max-width: 600px) {
   .truncate {
-    max-width:160px; /* narrower on small screens */
+    max-width:150px;
   }
 }
 
+/* Optional hover reveal */
+.truncate:hover {
+  white-space:normal;
+  background:#f1f5f9;
+  padding:4px;
+  border-radius:6px;
+  position:relative;
+  z-index:10;
+}
+
 /* Empty / Loading */
-.empty-state, .loading {
+.empty-state,
+.loading {
   padding:24px;
   text-align:center;
   color:#64748b;
@@ -210,14 +246,13 @@ html,body {
   margin:18px 0;
 }
 
-/* Mobile: make stats items full width */
 @media (max-width: 600px) {
   .stats-list {
     grid-template-columns:1fr;
   }
 }
 
-/* Make text bigger on mobile */
+/* Mobile text scaling */
 @media (max-width: 600px) {
   body {
     font-size:16px;
