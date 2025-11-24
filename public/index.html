@@ -1,47 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>TinyLink Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TinyLink — Dashboard</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
-
 <body>
-  <h1>TinyLink Dashboard</h1>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">TinyLink</div>
+      <nav class="nav">
+        <a href="/">Dashboard</a>
+        <a href="/healthz" target="_blank" rel="noopener">Health</a>
+      </nav>
+    </div>
+  </header>
 
-  <!-- ADD LINK FORM -->
-  <section class="card">
-    <h2>Create New Short Link</h2>
+  <main class="container">
+    <section class="grid">
+      <!-- Create Card -->
+      <div class="card create-card">
+        <h2>Create a short link</h2>
+        <p class="muted">Enter a target URL and an optional custom code (6–8 letters/numbers).</p>
 
-    <form id="createForm">
-      <label>Target URL</label>
-      <input type="text" id="urlInput" required placeholder="https://example.com">
+        <form id="createForm" class="form">
+          <div class="field">
+            <label for="urlInput">Target URL</label>
+            <input id="urlInput" type="url" placeholder="https://example.com/path" required />
+            <small class="hint" id="urlHint"></small>
+          </div>
 
-      <label>Custom Code (6–8 letters/numbers)</label>
-      <input type="text" id="codeInput" required placeholder="mycode123">
+          <div class="field">
+            <label for="codeInput">Custom code (6–8 chars)</label>
+            <input id="codeInput" type="text" inputmode="latin" pattern="[A-Za-z0-9]{6,8}" placeholder="abc123" />
+            <small class="hint" id="codeHint">Leave empty to auto-generate</small>
+          </div>
 
-      <button type="submit">Create</button>
-      <p id="formMessage"></p>
-    </form>
-  </section>
+          <div class="actions-row">
+            <button id="createBtn" class="btn primary">Create</button>
+            <div id="formMessage" class="form-message" role="status"></div>
+          </div>
+        </form>
 
-  <!-- LINKS TABLE -->
-  <section class="card">
-    <h2>All Links</h2>
-    <div id="loading">Loading...</div>
-    <table id="linksTable" class="hidden">
-      <thead>
-        <tr>
-          <th>Short Code</th>
-          <th>Target URL</th>
-          <th>Total Clicks</th>
-          <th>Last Clicked</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="linksBody"></tbody>
-    </table>
-    <p id="emptyState" class="hidden">No links yet. Create one above!</p>
-  </section>
+        <div class="small-note muted">Codes follow <code>[A-Za-z0-9]{6,8}</code>. Duplicate codes return 409.</div>
+      </div>
+
+      <!-- Links Card -->
+      <div class="card list-card">
+        <div class="list-header">
+          <h2>All links</h2>
+          <div class="search-wrap">
+            <input id="searchInput" placeholder="Search code or URL…" />
+          </div>
+        </div>
+
+        <div id="loading" class="loading">Loading links…</div>
+
+        <div class="table-wrap">
+          <table id="linksTable" class="links-table hidden" aria-live="polite">
+            <thead>
+              <tr>
+                <th>Short</th>
+                <th>Target URL</th>
+                <th>Clicks</th>
+                <th>Last clicked</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="linksBody"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+          <p>No links yet — create one to get started.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
 
   <script src="/script.js"></script>
 </body>
