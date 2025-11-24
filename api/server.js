@@ -24,17 +24,22 @@ app.get("/healthz", (req, res) => {
 
 // Dashboard
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.resolve("public/index.html"));
 });
 
 // Stats page
 app.get("/code/:code", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/stats.html"));
+  res.sendFile(path.resolve("public/stats.html"));
 });
 
-// Redirect ONLY for valid short codes (6–8 alphanumeric)
-app.get("/:code([A-Za-z0-9]{6,8})", async (req, res) => {
+// Redirect — manual regex validation (Vercel-safe)
+app.get("/:code", async (req, res) => {
   const code = req.params.code;
+
+  // Manual validation (Vercel does NOT support regex in route)
+  if (!/^[A-Za-z0-9]{6,8}$/.test(code)) {
+    return res.status(404).send("Not found");
+  }
 
   try {
     const result = await pool.query("SELECT * FROM links WHERE code=$1", [code]);
@@ -43,6 +48,7 @@ app.get("/:code([A-Za-z0-9]{6,8})", async (req, res) => {
       return res.status(404).send("Not found");
     }
 
+    // Update click count + timestamp
     await pool.query(`
       UPDATE links
       SET total_clicks = total_clicks + 1,
@@ -57,8 +63,7 @@ app.get("/:code([A-Za-z0-9]{6,8})", async (req, res) => {
   }
 });
 
-
-// Serve static files (MOVE THIS TO THE END)
+// Static files (CSS, JS, images)
 app.use(express.static(path.join(__dirname, "../public")));
 
 export default app;
